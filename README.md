@@ -1,6 +1,8 @@
 # FinBruv
 finance app
 
+## In progress: 1/15 ... 
+
 ## Services
 
 ### User Service:
