@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package io.grpc.PortfolioService;
+
+service PortfolioService {
+  rpc GetPortfolio (PortfolioRequest) returns (PortfolioResponse);
+}
+
+message PortfolioRequest {
+  string userId = 1;
+}
+
+message PortfolioResponse {
+  repeated Instrument instruments = 1;
+}
+
+message Instrument {
+  string id = 1;
+  string name = 2;
+  double quantity = 3;
+}

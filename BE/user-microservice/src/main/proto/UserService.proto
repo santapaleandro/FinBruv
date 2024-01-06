@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.paleandro.software.grpc.UserService;
+
+service UserService {
+  rpc getUserByID(UserId) returns (UserDTO) {}
+}
+
+message UserId {
+  string id = 1;
+}
+
+message UserDTO {
+  string message = 1;
+}

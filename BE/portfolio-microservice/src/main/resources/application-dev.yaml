@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: portfolio-microservice
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/portfolio-db
+    username: myuser
+    password: secret
+    pool:
+      enabled: true
+      initial-size: 50
+      max-size: 100
+  flyway:
+    clean-on-validation-error: true
+    baseline-on-migrate: true
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+      flywaydb:
+        core: DEBUG
+server:
+  port: 8082
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+
+  discovery-service:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    image: finbruv-discovery-service:latest
+    ports:
+      - "8080:8080"
+
+  user-microservice:
+    build:
+      context: ./user-microservice
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8080/eureka/
+      SPRING_R2DBC_URL: r2dbc:postgresql://user-microservice-db:5432/user-db
+      SPRING_R2DBC_USERNAME: myuser
+      SPRING_R2DBC_PASSWORD: secret
+    depends_on:
+      - user-microservice-db
+      - discovery-service
+
+  user-microservice-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: user-db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - user-db_data:/var/lib/postgresql/data
+
+  portfolio-manager-microservice:
+    build:
+      context: ./portfolio-management-microservice
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8080/eureka/
+      SPRING_R2DBC_URL: r2dbc:postgresql://portfolio-microservice-db:5433/portfolio-db
+      SPRING_R2DBC_USERNAME: myuser
+      SPRING_R2DBC_PASSWORD: secret
+    depends_on:
+      - user-microservice
+      - portfolio-microservice-db
+      - discovery-service
+
+  portfolio-microservice-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: portfolio-db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+#    volumes:
+#      - portfolio-db_data:/var/lib/postgresql/data

@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS portfolios (
+   id UUID PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   ownerId UUID NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS performances (
+    id BIGSERIAL PRIMARY KEY,
+    portfolioId UUID NOT NULL,
+    date DATE NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (portfolioId) REFERENCES portfolios(id)
+);
+
+CREATE TABLE IF NOT EXISTS exchanges (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS instruments (
+    id BIGSERIAL PRIMARY KEY,
+    type VARCHAR(255) NOT NULL,
+    exchange BIGINT NOT NULL,
+    ticker VARCHAR(255) NOT NULL,
+    quantity DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (exchange) REFERENCES exchanges(id)
+);
