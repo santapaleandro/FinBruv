@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-package io.grpc.PortfolioService;
+package com.paleandro.software.grpc.PortfolioService;
 
 service PortfolioService {
-  rpc GetPortfolio (PortfolioRequest) returns (PortfolioResponse);
+  rpc GetPortfoliosOfUserGRPC (UserIdReq) returns (UserPortfoliosResponse);
 }
 
-message PortfolioRequest {
+message UserIdReq {
   string userId = 1;
 }
 
-message PortfolioResponse {
+message UserPortfoliosResponse {
   repeated Instrument instruments = 1;
 }
 

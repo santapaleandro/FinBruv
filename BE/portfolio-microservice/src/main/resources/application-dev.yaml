@@ -22,6 +22,10 @@ logging:
         core: DEBUG
 server:
   port: 8082
+grpc:
+  server:
+    address: "localhost"
+    port: 9092
 eureka:
   client:
     registerWithEureka: true
